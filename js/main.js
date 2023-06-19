@@ -13,6 +13,9 @@ const NAMES = [
 const MESSAGES = [
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
+  'Всё отлично!',
+  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
+  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.'
 ];
 
 const DESCRIPTIONS = [
@@ -32,6 +35,9 @@ const createRandomIdFromRangeGenerator = (min, max) => {
 
   return function () {
     let currentValue = getRandomInteger(min, max);
+    if (previousValues.length >= (max - min + 1)) {
+      return null;
+    }
     while (previousValues.includes(currentValue)) {
       currentValue = getRandomInteger(min, max);
     }
@@ -47,13 +53,24 @@ const createComments = (count) => {
 
   const generateRandomCommentId = createRandomIdFromRangeGenerator(1, 30);
 
+  const message = () => {
+    const numberOfMessages = getRandomInteger(1, 2);
+    if (numberOfMessages === 1) {
+      return getRandomArrayElement(MESSAGES);
+    } else {
+      const firstMessage = getRandomArrayElement(MESSAGES);
+      const secondMessage = getRandomArrayElement(MESSAGES.filter((msg) => msg !== firstMessage));
+      return `${firstMessage} ${secondMessage}`;
+    }
+  };
+
   for (let i = 0; i < count; i++) {
     const generateRandomAvatarId = getRandomInteger(1, 6);
 
     const comment = {
       id: generateRandomCommentId(),
       avatar: `img/avatar-${generateRandomAvatarId}.svg`,
-      message: getRandomArrayElement(MESSAGES),
+      message: message(),
       name: getRandomArrayElement(NAMES)
     };
 
@@ -63,7 +80,6 @@ const createComments = (count) => {
   return comments;
 };
 
-const allComments = createComments(30);
 
 const createPhoto = (count) => {
   const photos = [];
@@ -78,7 +94,7 @@ const createPhoto = (count) => {
       url: `photos/${generateRandomPhotoId()}.jpg`,
       desctiption: getRandomArrayElement(DESCRIPTIONS),
       likes: getRandomInteger(15, 200),
-      comments: getRandomArrayElement(allComments),
+      comments: createComments(getRandomInteger(0, 30)),
     };
 
     photos.push(photo);
