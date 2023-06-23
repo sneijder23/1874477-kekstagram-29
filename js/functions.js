@@ -1,3 +1,16 @@
+import {
+  NAMES,
+  MESSAGES,
+  DESCRIPTIONS,
+  COMMENT_COUNT
+} from './data.js';
+
+import {
+  getRandomInteger,
+  createRandomIdFromRangeGenerator,
+  getRandomArrayElement
+} from './util.js';
+
 const validateStringLength = (string, validLength) => string.length <= validLength;
 
 validateStringLength('проверяемая строка', 20);
@@ -28,3 +41,84 @@ function getNumbersFromString(string) {
 }
 
 getNumbersFromString('1 кефир, 0.5 батона');
+
+/**
+ * Функция для создания комментариев
+ * @param {number} count - количество уникальных комментариев
+ * @param {array} comments - массив уникальных комментариев
+ * @param {number} COMMENT_COUNT - количество комментариев
+ * @returns в случае получения 1 сообщения возвращаем его
+ * @returns в случае получения 2 сообщений проверяем методом filter на уникальность сообщения и возвращаем их
+ * @param for цикл для создания уникальных комментариев
+ * @returns возвращает готовый объект комментария
+ */
+const createComments = (count) => {
+  const comments = [];
+
+  const generateRandomCommentId = createRandomIdFromRangeGenerator(1, COMMENT_COUNT);
+
+  /**
+   * Функция для получения сообщения в комментарий
+   * @param {number} numberOfMessages - рандомно получаем 1 или 2 сообщения
+   * @returns в случае получения 1 сообщения возвращаем его
+    * @returns в случае получения 2 сообщений проверяем методом filter на уникальность сообщения и возвращаем их
+   */
+  const createMessage = () => {
+    const numberOfMessages = getRandomInteger(1, 2);
+    if (numberOfMessages === 1) {
+      return getRandomArrayElement(MESSAGES);
+    } else {
+      const firstMessage = getRandomArrayElement(MESSAGES);
+      const secondMessage = getRandomArrayElement(MESSAGES.filter((msg) => msg !== firstMessage));
+      return `${firstMessage} ${secondMessage}`;
+    }
+  };
+
+  for (let i = 0; i < count; i++) {
+    const generateRandomAvatarId = getRandomInteger(1, 6);
+
+    const comment = {
+      id: generateRandomCommentId(),
+      avatar: `img/avatar-${generateRandomAvatarId}.svg`,
+      message: createMessage(),
+      name: getRandomArrayElement(NAMES)
+    };
+
+    comments.push(comment);
+  }
+
+  return comments;
+};
+
+/**
+ * Функция для создания уникальных карточек фото
+ * @param {number} count - количество уникальных фото
+ * @param {number} generateRandomCardId - генерация уникального неповторяющего id для карточки
+ * @param {number} generateRandomPhotoId - генерация уникального неповторяющего id для url фото
+ * @returns возвращает массив с объектами уникальных карточек фото с описанием
+ */
+const createCardPhoto = (count) => {
+  const photos = [];
+
+  const generateRandomCardId = createRandomIdFromRangeGenerator(1, 25);
+  const generateRandomPhotoId = createRandomIdFromRangeGenerator(1, 25);
+
+  for (let i = 0; i < count; i++) {
+
+    const photo = {
+      id: generateRandomCardId(),
+      url: `photos/${generateRandomPhotoId()}.jpg`,
+      desctiption: getRandomArrayElement(DESCRIPTIONS),
+      likes: getRandomInteger(15, 200),
+      comments: createComments(getRandomInteger(0, COMMENT_COUNT)),
+    };
+
+    photos.push(photo);
+  }
+
+  return photos;
+};
+
+export {
+  createComments,
+  createCardPhoto};
