@@ -119,6 +119,27 @@ const createCardPhoto = (count) => {
   return photos;
 };
 
+const MINUTES_IN_HOUR = 60;
+
+function getTimeInMinutes(time) {
+  return time.split(':')
+    .reduce((acc, cur, index) => index ? acc + Number(cur) : acc + Number(cur) * MINUTES_IN_HOUR, 0);
+}
+
+function isAtWorktime(startTime, endTime, meetingTime, duration) {
+  const startTimeInMinutes = getTimeInMinutes(startTime);
+  const endTimeInMinutes = getTimeInMinutes(endTime);
+  const meetingTimeInMinutes = getTimeInMinutes(meetingTime);
+
+  const isMeetingAfterStart = meetingTimeInMinutes >= startTimeInMinutes;
+  const isMeetingBeforeEnd = meetingTimeInMinutes + duration <= endTimeInMinutes;
+
+  return isMeetingAfterStart && isMeetingBeforeEnd;
+}
+
+isAtWorktime('08:00', '17:30', '14:00', 90);
+
 export {
   createComments,
-  createCardPhoto};
+  createCardPhoto
+};
