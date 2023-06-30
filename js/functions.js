@@ -42,16 +42,7 @@ function getNumbersFromString(string) {
 
 getNumbersFromString('1 кефир, 0.5 батона');
 
-/**
- * Функция для создания комментариев
- * @param {number} count - количество уникальных комментариев
- * @param {array} comments - массив уникальных комментариев
- * @param {number} COMMENT_COUNT - количество комментариев
- * @returns в случае получения 1 сообщения возвращаем его
- * @returns в случае получения 2 сообщений проверяем методом filter на уникальность сообщения и возвращаем их
- * @param for цикл для создания уникальных комментариев
- * @returns возвращает готовый объект комментария
- */
+
 const createComments = (count) => {
   const comments = [];
 
