@@ -35,5 +35,7 @@ export {
   NAMES,
   MESSAGES,
   DESCRIPTIONS,
-  COMMENT_COUNT
+  COMMENT_COUNT,
+  PHOTO_COUNT,
+  createCardPhoto
 };
