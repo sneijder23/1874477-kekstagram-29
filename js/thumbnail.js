@@ -17,5 +17,9 @@ thumbnailsList.forEach((picture) => {
   thumbnailFragment.append(thumbnailItem);
 });
 
-export { thumbnailFragment };
+const picturesContainer = document.querySelector('.pictures');
+picturesContainer.append(thumbnailFragment);
+
+export { thumbnailsList, picturesContainer };
+
 

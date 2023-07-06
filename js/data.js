@@ -27,6 +27,7 @@ const DESCRIPTIONS = [
 
 const COMMENT_COUNT = 30;
 const PHOTO_COUNT = 25;
+const COMMENT_PER_PORTION = 5;
 
 createComments(COMMENT_COUNT);
 createCardPhoto(PHOTO_COUNT);
@@ -37,5 +38,6 @@ export {
   DESCRIPTIONS,
   COMMENT_COUNT,
   PHOTO_COUNT,
-  createCardPhoto
+  createCardPhoto,
+  COMMENT_PER_PORTION
 };

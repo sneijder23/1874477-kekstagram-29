@@ -1,4 +1,4 @@
-import {thumbnailFragment} from './thumbnail.js';
+import { findFullSizePicture } from './picture.js';
 
-const picturesContainer = document.querySelector('.pictures');
-picturesContainer.append(thumbnailFragment);
+findFullSizePicture();
+

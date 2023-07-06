@@ -43,8 +43,17 @@ const createRandomIdFromRangeGenerator = (min, max) => {
 */
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+const removeEventListener = (fn1, fn2) => {
+  document.removeEventListener('keydown', fn1);
+  document.removeEventListener('click', fn2);
+};
+
 export {
   getRandomInteger,
   createRandomIdFromRangeGenerator,
-  getRandomArrayElement
+  getRandomArrayElement,
+  isEscapeKey,
+  removeEventListener
 };

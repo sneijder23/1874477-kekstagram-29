@@ -99,7 +99,7 @@ const createCardPhoto = (count) => {
     const photo = {
       id: generateRandomCardId(),
       url: `photos/${generateRandomPhotoId()}.jpg`,
-      desctiption: getRandomArrayElement(DESCRIPTIONS),
+      description: getRandomArrayElement(DESCRIPTIONS),
       likes: getRandomInteger(15, 200),
       comments: createComments(getRandomInteger(0, COMMENT_COUNT)),
     };
