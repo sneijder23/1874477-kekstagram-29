@@ -1,4 +1,3 @@
-import { findFullSizePicture } from './picture.js';
+import { findPhoto } from './big-picture.js';
 
-findFullSizePicture();
-
+findPhoto();

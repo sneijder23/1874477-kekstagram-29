@@ -45,15 +45,9 @@ const getRandomArrayElement = (elements) => elements[getRandomInteger(0, element
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-const removeEventListener = (fn1, fn2) => {
-  document.removeEventListener('keydown', fn1);
-  document.removeEventListener('click', fn2);
-};
-
 export {
   getRandomInteger,
   createRandomIdFromRangeGenerator,
   getRandomArrayElement,
-  isEscapeKey,
-  removeEventListener
+  isEscapeKey
 };
