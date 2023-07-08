@@ -1,8 +1,7 @@
 
 import { isEscapeKey } from './util.js';
-import { thumbnailsList } from './thumbnail.js';
+import { thumbnailsList, picturesContainer } from './thumbnail.js';
 import { COMMENT_PER_PORTION } from './data.js';
-import { picturesContainer } from './thumbnail.js';
 
 const thumbnails = Array.from(document.querySelectorAll('.picture')); // Получаем массив из NodeList
 const pictureContainer = document.querySelector('.big-picture');
