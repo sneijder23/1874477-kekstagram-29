@@ -1,6 +1,7 @@
 import { createCardPhoto, PHOTO_COUNT } from './data.js';
 
 const thumbnailsList = createCardPhoto(PHOTO_COUNT);
+const picturesContainer = document.querySelector('.pictures');
 const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const thumbnailFragment = document.createDocumentFragment();
 
@@ -17,5 +18,8 @@ thumbnailsList.forEach((picture) => {
   thumbnailFragment.append(thumbnailItem);
 });
 
-export { thumbnailFragment };
+picturesContainer.append(thumbnailFragment);
+
+export { thumbnailsList, picturesContainer };
+
 

@@ -1,4 +1,3 @@
-import {thumbnailFragment} from './thumbnail.js';
+import { findPhoto } from './big-picture.js';
 
-const picturesContainer = document.querySelector('.pictures');
-picturesContainer.append(thumbnailFragment);
+findPhoto();
