@@ -1,4 +1,3 @@
-
 import { isEscapeKey } from './util.js';
 import { thumbnailsList, picturesContainer } from './thumbnail.js';
 import { COMMENT_PER_PORTION } from './data.js';
@@ -19,6 +18,7 @@ let commentsShowArray = [];
 
 function onPictureEsc(evt) {
   if (isEscapeKey(evt)) {
+    evt.preventDefault();
     closePhoto();
   }
 }
@@ -84,6 +84,10 @@ function fillComments({ comments }) {
 
   commentsCountList.textContent = `${showFirstComments.length} из ${comments.length} комментариев`;
 
+  if (comments.length % 10 === 1 && comments.length !== 11) {
+    commentsCountList.textContent = `${showFirstComments.length} из ${comments.length} комментария`;
+  }
+
   // Если изначально у нас <= 5 комментариев
   if (showFirstComments.length >= comments.length) {
     commentsCountList.classList.add('hidden');
@@ -92,8 +96,12 @@ function fillComments({ comments }) {
 }
 
 function findPhoto() {
-  picturesContainer.addEventListener('click', (thumbnail) => {
-    const picture = thumbnail.target.parentNode;
+  picturesContainer.addEventListener('click', (event) => {
+    const picture = event.target.closest('.picture');
+    if (!picture) {
+      return; // Прерывает выполнение обработчика для элементов, не являющихся .picture
+    }
+
     const thumbnailIndex = thumbnails.findIndex((item) => item === picture);
     const photo = thumbnailsList[thumbnailIndex];
 
