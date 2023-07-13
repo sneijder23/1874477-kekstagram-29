@@ -1,15 +1,21 @@
-import { hashtagInput } from './picture-upload.js';
+import { MAX_HASHTAG_COUNT, MAX_TEXT_LENGTH } from './data.js';
 
+const formUploadPhoto = document.querySelector('.img-upload__form');
+const hashtagInput = document.querySelector('.text__hashtags');
+const commentInput = document.querySelector('.text__description');
 const hashtagRegExp = /^#[a-zа-яё0-9]{1,19}$/i;
 let errorHashtagMessage = '';
 
+const pristine = new Pristine(formUploadPhoto, {
+  classTo: 'img-upload__field-wrapper',
+  errorTextParent: 'img-upload__field-wrapper',
+  errorTextClass: 'img-upload__field-wrapper--error',
+  errorTextTag: 'p'
+}, false);
 
-function validateComment(value) {
-  return value.length <= 140;
-}
+const validateComment = (value) => value.length <= MAX_TEXT_LENGTH;
 
-
-function validateHashtags() {
+const validateHashtags = () => {
   const hashtags = hashtagInput.value.trim().split(/\s+/);
   const uniqueHashtags = new Set(hashtags.map((item) => item.toLowerCase()));
   let isValid = true;
@@ -18,7 +24,7 @@ function validateHashtags() {
     return true;
   }
 
-  if (uniqueHashtags.size > 5) {
+  if (uniqueHashtags.size > MAX_HASHTAG_COUNT) {
     isValid = false;
     errorHashtagMessage = 'Нельзя указать больше пяти хэш-тегов';
   } else {
@@ -40,10 +46,25 @@ function validateHashtags() {
   }
 
   return isValid;
-}
+};
+
+pristine.addValidator(
+  hashtagInput,
+  validateHashtags,
+  () => errorHashtagMessage || 'Хэш-тег некорректен'
+);
+
+pristine.addValidator(
+  commentInput,
+  validateComment,
+  'Длина комментария не может составлять больше 140 символов'
+);
 
 export {
+  hashtagInput,
+  commentInput,
   errorHashtagMessage,
   validateComment,
-  validateHashtags
+  validateHashtags,
+  pristine
 };
