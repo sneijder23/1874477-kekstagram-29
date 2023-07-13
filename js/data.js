@@ -44,58 +44,47 @@ const EFFECT = {
 };
 
 const EFFECT_TYPES = {
+  [EFFECT.DEFAULT]: {
+    style: 'none',
+    unit: '',
+    min: 0,
+    max: 0,
+    step: 0,
+  },
   [EFFECT.CHROME]: {
     style: 'grayscale',
     unit: '',
+    min: 0,
+    max: 1,
+    step: 0.1
   },
   [EFFECT.SEPIA]: {
     style: 'sepia',
     unit: '',
+    min: 0,
+    max: 1,
+    step: 0.1
   },
   [EFFECT.MARVIN]: {
     style: 'invert',
     unit: '%',
+    min: 0,
+    max: 100,
+    step: 1
   },
   [EFFECT.PHOBOS]: {
     style: 'blur',
     unit: 'px',
+    min: 0,
+    max: 3,
+    step: 0.1
   },
   [EFFECT.HEAT]: {
     style: 'brightness',
     unit: '',
-  },
-};
-
-const EFFECT_TYPES_OPTIONS = {
-  [EFFECT.DEFAULT]: {
-    min: 0,
-    max: 1,
-    step: 1,
-  },
-  [EFFECT.CHROME]: {
-    min: 0,
-    max: 1,
-    step: 0.1,
-  },
-  [EFFECT.SEPIA]: {
-    min: 0,
-    max: 1,
-    step: 0.1,
-  },
-  [EFFECT.MARVIN]: {
-    min: 0,
-    max: 100,
-    step: 1,
-  },
-  [EFFECT.PHOBOS]: {
-    min: 0,
-    max: 3,
-    step: 0.1,
-  },
-  [EFFECT.HEAT]: {
     min: 1,
     max: 3,
-    step: 0.1,
+    step: 0.1
   },
 };
 
@@ -108,7 +97,6 @@ export {
   DESCRIPTIONS,
   EFFECT,
   EFFECT_TYPES,
-  EFFECT_TYPES_OPTIONS,
   COMMENT_COUNT,
   PHOTO_COUNT,
   SCALE_PER_STEP,

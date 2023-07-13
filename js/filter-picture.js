@@ -1,4 +1,4 @@
-import { EFFECT, EFFECT_TYPES, EFFECT_TYPES_OPTIONS } from './data.js';
+import { EFFECT, EFFECT_TYPES } from './data.js';
 import { photoPreview } from './upload-picture.js';
 
 const sliderContainer = document.querySelector('.img-upload__effect-level');
@@ -13,7 +13,7 @@ const createSlider = (element) => {
       min: 0,
       max: 100,
     },
-    start: 80,
+    start: '',
     step: 1,
     connect: 'lower',
     format: {
@@ -61,11 +61,11 @@ const onFilterChange = (evt) => {
   if (evt.target.value === 'none') {
     sliderContainer.classList.add('hidden');
     currentEffect = evt.target.value;
-    updateOptionsSlider(EFFECT_TYPES_OPTIONS[currentEffect]);
+    updateOptionsSlider(EFFECT_TYPES[currentEffect]);
   } else {
     sliderContainer.classList.remove('hidden');
     currentEffect = evt.target.value;
-    updateOptionsSlider(EFFECT_TYPES_OPTIONS[currentEffect]);
+    updateOptionsSlider(EFFECT_TYPES[currentEffect]);
   }
 };
 

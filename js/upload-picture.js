@@ -22,6 +22,7 @@ const closePhotoEditor = () => {
   URL.revokeObjectURL(photoPreview.src);
   photoEditor.classList.add('hidden');
   document.body.classList.remove('.modal-open');
+  formUploadPhoto.reset();
   pristine.reset();
   effectLevelSlider.noUiSlider.destroy();
 
