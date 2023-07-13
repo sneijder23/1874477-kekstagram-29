@@ -16,29 +16,7 @@ const picturePreview = document.querySelector('.big-picture__preview');
 const pictureOverlay = document.querySelector('.overlay');
 let commentsShowArray = [];
 
-function onPictureEsc(evt) {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    closePhoto();
-  }
-}
-
-function onOverlayClick(evt) {
-  if (!picturePreview.contains(evt.target)) {
-    closePhoto();
-  }
-}
-
-function closePhoto() {
-  document.body.classList.remove('modal-open');
-  pictureContainer.classList.add('hidden');
-  document.removeEventListener('keydown', onPictureEsc);
-  pictureOverlay.removeEventListener('click', onOverlayClick);
-  closeButtonPicture.removeEventListener('click', closePhoto);
-  buttonCommentsLoader.removeEventListener('click', getLoadComments);
-}
-
-function createPictureComments(comments) {
+const createPictureComments = (comments) => {
   comments.forEach((comment) => {
     const element = document.createElement('li');
     const img = document.createElement('img');
@@ -53,9 +31,9 @@ function createPictureComments(comments) {
     element.append(text);
     pictureComments.append(element);
   });
-}
+};
 
-function getLoadComments() {
+const getLoadComments = () => {
   // Если длинна массива с комментариями равно 0 то ни чего не делаем
   if (!commentsShowArray.length) {
     return;
@@ -75,9 +53,9 @@ function getLoadComments() {
   if (commentsShowArray.length <= pictureComments.children.length) {
     buttonCommentsLoader.classList.add('hidden');
   }
-}
+};
 
-function fillComments({ comments }) {
+const fillComments = ({ comments }) => {
   const showFirstComments = comments.slice(0, COMMENT_PER_PORTION);
 
   createPictureComments(showFirstComments);
@@ -93,17 +71,17 @@ function fillComments({ comments }) {
     commentsCountList.classList.add('hidden');
     buttonCommentsLoader.classList.add('hidden');
   }
-}
+};
 
-function findPhoto() {
+const findPhoto = () => {
   picturesContainer.addEventListener('click', (event) => {
     const picture = event.target.closest('.picture');
+    const thumbnailIndex = thumbnails.findIndex((item) => item === picture);
+    const photo = thumbnailsList[thumbnailIndex];
+
     if (!picture) {
       return; // Прерывает выполнение обработчика для элементов, не являющихся .picture
     }
-
-    const thumbnailIndex = thumbnails.findIndex((item) => item === picture);
-    const photo = thumbnailsList[thumbnailIndex];
 
     pictureComments.innerHTML = '';
     commentsCountList.classList.remove('hidden');
@@ -117,13 +95,43 @@ function findPhoto() {
     commentsCount.textContent = photo.comments.length;
     pictureDescription.textContent = photo.description;
 
-    buttonCommentsLoader.addEventListener('click', getLoadComments);
-    fillComments(photo);
 
-    document.addEventListener('keydown', onPictureEsc);
-    pictureOverlay.addEventListener('click', onOverlayClick);
-    closeButtonPicture.addEventListener('click', closePhoto);
+    fillComments(photo);
+    addEvent();
   });
+};
+
+const closePhoto = () => {
+  document.body.classList.remove('modal-open');
+  pictureContainer.classList.add('hidden');
+  removeEvent();
+};
+
+const onPictureEsc = (evt) => {
+  if (isEscapeKey(evt) && !evt.target.closest('.social__footer-text')) {
+    evt.preventDefault();
+    closePhoto();
+  }
+};
+
+const onOverlayClick = (evt) => {
+  if (!picturePreview.contains(evt.target)) {
+    closePhoto();
+  }
+};
+
+function addEvent() {
+  document.addEventListener('keydown', onPictureEsc);
+  pictureOverlay.addEventListener('click', onOverlayClick);
+  closeButtonPicture.addEventListener('click', closePhoto);
+  buttonCommentsLoader.addEventListener('click', getLoadComments);
+}
+
+function removeEvent() {
+  document.removeEventListener('keydown', onPictureEsc);
+  pictureOverlay.removeEventListener('click', onOverlayClick);
+  closeButtonPicture.removeEventListener('click', closePhoto);
+  buttonCommentsLoader.removeEventListener('click', getLoadComments);
 }
 
 export { findPhoto };

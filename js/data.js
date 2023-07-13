@@ -1,5 +1,14 @@
 import {createComments, createCardPhoto} from './functions.js';
 
+const COMMENT_COUNT = 30;
+const PHOTO_COUNT = 25;
+const COMMENT_PER_PORTION = 5; // Количество комментариев в порции открытой полноразмерного фото
+const SCALE_PER_STEP = 25; // Шаг маштабирования фото в форме загрузки фото
+const MAX_SCALE = 100; // Максимальное маштабирование фото в форме загрузки фото
+const MIN_SCALE = 25; // Минимальное маштабирование фото в форме загрузки фото
+const MAX_HASHTAG_COUNT = 5; // Максимальное число хэштегов
+const MAX_TEXT_LENGTH = 140; // Максимальная длина комментария в форме загрузки фото
+
 const NAMES = [
   'Петя',
   'Вася',
@@ -25,9 +34,50 @@ const DESCRIPTIONS = [
   'Как проходит мой отпуск. Найди меня на фото!'
 ];
 
-const COMMENT_COUNT = 30;
-const PHOTO_COUNT = 25;
-const COMMENT_PER_PORTION = 5;
+const EFFECTS = {
+  'none': {
+    style: 'none',
+    unit: '',
+    min: 0,
+    max: 0,
+    step: 0,
+  },
+  'chrome': {
+    style: 'grayscale',
+    unit: '',
+    min: 0,
+    max: 1,
+    step: 0.1
+  },
+  'sepia': {
+    style: 'sepia',
+    unit: '',
+    min: 0,
+    max: 1,
+    step: 0.1
+  },
+  'marvin': {
+    style: 'invert',
+    unit: '%',
+    min: 0,
+    max: 100,
+    step: 1
+  },
+  'phobos': {
+    style: 'blur',
+    unit: 'px',
+    min: 0,
+    max: 3,
+    step: 0.1
+  },
+  'heat': {
+    style: 'brightness',
+    unit: '',
+    min: 1,
+    max: 3,
+    step: 0.1
+  },
+};
 
 createComments(COMMENT_COUNT);
 createCardPhoto(PHOTO_COUNT);
@@ -36,8 +86,14 @@ export {
   NAMES,
   MESSAGES,
   DESCRIPTIONS,
+  EFFECTS,
   COMMENT_COUNT,
   PHOTO_COUNT,
-  createCardPhoto,
-  COMMENT_PER_PORTION
+  SCALE_PER_STEP,
+  MAX_SCALE,
+  MIN_SCALE,
+  COMMENT_PER_PORTION,
+  MAX_HASHTAG_COUNT,
+  MAX_TEXT_LENGTH,
+  createCardPhoto
 };

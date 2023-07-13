@@ -1192,6 +1192,16 @@ main {
   transform: translateX(-50%);
 }
 
+.img-upload__field-wrapper--error {
+  margin: 0;
+  margin-bottom: -20px;;
+  padding: 0;
+  color: #ff0000;
+}
+
+.img-upload__field-wrapper:first-child > .img-upload__field-wrapper--error {
+  transform: translateY(-20px);
+}
 
 /**
  * Экраны ошибки и успеха загрузки изображения
