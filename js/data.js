@@ -34,52 +34,43 @@ const DESCRIPTIONS = [
   'Как проходит мой отпуск. Найди меня на фото!'
 ];
 
-const EFFECT = {
-  DEFAULT: 'none',
-  CHROME: 'chrome',
-  SEPIA: 'sepia',
-  MARVIN: 'marvin',
-  PHOBOS: 'phobos',
-  HEAT: 'heat',
-};
-
-const EFFECT_TYPES = {
-  [EFFECT.DEFAULT]: {
+const EFFECTS = {
+  'none': {
     style: 'none',
     unit: '',
     min: 0,
     max: 0,
     step: 0,
   },
-  [EFFECT.CHROME]: {
+  'chrome': {
     style: 'grayscale',
     unit: '',
     min: 0,
     max: 1,
     step: 0.1
   },
-  [EFFECT.SEPIA]: {
+  'sepia': {
     style: 'sepia',
     unit: '',
     min: 0,
     max: 1,
     step: 0.1
   },
-  [EFFECT.MARVIN]: {
+  'marvin': {
     style: 'invert',
     unit: '%',
     min: 0,
     max: 100,
     step: 1
   },
-  [EFFECT.PHOBOS]: {
+  'phobos': {
     style: 'blur',
     unit: 'px',
     min: 0,
     max: 3,
     step: 0.1
   },
-  [EFFECT.HEAT]: {
+  'heat': {
     style: 'brightness',
     unit: '',
     min: 1,
@@ -95,8 +86,7 @@ export {
   NAMES,
   MESSAGES,
   DESCRIPTIONS,
-  EFFECT,
-  EFFECT_TYPES,
+  EFFECTS,
   COMMENT_COUNT,
   PHOTO_COUNT,
   SCALE_PER_STEP,

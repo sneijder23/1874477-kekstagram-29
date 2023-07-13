@@ -1,11 +1,11 @@
-import { EFFECT, EFFECT_TYPES } from './data.js';
+import { EFFECTS } from './data.js';
 import { photoPreview } from './upload-picture.js';
 
 const sliderContainer = document.querySelector('.img-upload__effect-level');
 const effectValue = document.querySelector('.effect-level__value');
 const effectLevelSlider = document.querySelector('.effect-level__slider');
 const effectsList = document.querySelector('.effects__list');
-let currentEffect = EFFECT.DEFAULT;
+let currentEffect = 'none';
 
 const createSlider = (element) => {
   noUiSlider.create(element, {
@@ -31,13 +31,13 @@ const createSlider = (element) => {
 };
 
 const createEffect = () => {
-  if (currentEffect === EFFECT.DEFAULT) {
+  if (currentEffect === 'none') {
     photoPreview.style.removeProperty('filter');
     return;
   }
 
-  const style = EFFECT_TYPES[currentEffect].style;
-  const unit = EFFECT_TYPES[currentEffect].unit;
+  const style = EFFECTS[currentEffect].style;
+  const unit = EFFECTS[currentEffect].unit;
 
   photoPreview.style.filter = `${style}(${effectValue.value}${unit})`;
 };
@@ -61,11 +61,11 @@ const onFilterChange = (evt) => {
   if (evt.target.value === 'none') {
     sliderContainer.classList.add('hidden');
     currentEffect = evt.target.value;
-    updateOptionsSlider(EFFECT_TYPES[currentEffect]);
+    updateOptionsSlider(EFFECTS[currentEffect]);
   } else {
     sliderContainer.classList.remove('hidden');
     currentEffect = evt.target.value;
-    updateOptionsSlider(EFFECT_TYPES[currentEffect]);
+    updateOptionsSlider(EFFECTS[currentEffect]);
   }
 };
 
