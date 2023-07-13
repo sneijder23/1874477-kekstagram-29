@@ -13,7 +13,6 @@ const onSubmitForm = (evt) => {
   if (!pristine.validate()) {
     evt.preventDefault();
   }
-  pristine.validate();
 };
 
 const closePhotoEditor = () => {

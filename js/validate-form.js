@@ -63,7 +63,6 @@ pristine.addValidator(
 export {
   hashtagInput,
   commentInput,
-  errorHashtagMessage,
   validateComment,
   validateHashtags,
   pristine
