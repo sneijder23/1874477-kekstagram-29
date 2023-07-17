@@ -24,6 +24,7 @@ const createThumbnails = (data) => {
     });
 
     thumbnailFragment.append(thumbnailItem);
+    picturesContainer.append(thumbnailFragment);
   });
 };
 
@@ -31,7 +32,6 @@ const renderThumbnails = () => {
   getData()
     .then((data) => {
       createThumbnails(data);
-      picturesContainer.append(thumbnailFragment);
     }).catch((error) => {
       showAlert(error.message);
     });
