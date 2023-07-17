@@ -66,6 +66,11 @@ pristine.addValidator(
   'Длина комментария не может составлять больше 140 символов'
 );
 
+const initSuccesForm = () => {
+  closeUploadPhoto();
+  showSuccessPopup();
+};
+
 const blockSubmitButton = () => {
   submitButton.disabled = true;
   submitButton.textContent = SubmitButtonText.SENDING;
@@ -84,18 +89,14 @@ const onFormSubmit = () => {
       blockSubmitButton();
       postData(new FormData(evt.target))
         .then(() => {
-          closeUploadPhoto();
-          showSuccessPopup();
+          initSuccesForm();
         })
-        .catch(
-          (error) => {
-            showErrorPopup(error.message);
-          }
-        )
+        .catch(() => {
+          showErrorPopup();
+        })
         .finally(unblockSubmitButton);
     }
   });
-
 };
 
 export {
