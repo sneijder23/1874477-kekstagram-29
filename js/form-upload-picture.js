@@ -57,6 +57,7 @@ const onPictureEsc = (evt) => {
 };
 
 function addEvent() {
+  formUploadPhoto.addEventListener('submit', onFormSubmit);
   uploadScale.addEventListener('click', changePhotoScale);
   effectsList.addEventListener('change', onFilterChange);
   closeButtonEditor.addEventListener('click', closeUploadPhoto);

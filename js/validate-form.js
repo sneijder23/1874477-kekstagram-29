@@ -81,22 +81,20 @@ const unblockSubmitButton = () => {
   submitButton.textContent = SubmitButtonText.DEFAULT;
 };
 
-const onFormSubmit = () => {
-  formUploadPhoto.addEventListener('submit', (evt) => {
-    evt.preventDefault();
+const onFormSubmit = (evt) => {
+  evt.preventDefault();
 
-    if (pristine.validate()) {
-      blockSubmitButton();
-      postData(new FormData(evt.target))
-        .then(() => {
-          initSuccesForm();
-        })
-        .catch(() => {
-          showErrorPopup();
-        })
-        .finally(unblockSubmitButton);
-    }
-  });
+  if (pristine.validate()) {
+    blockSubmitButton();
+    postData(new FormData(evt.target))
+      .then(() => {
+        initSuccesForm();
+      })
+      .catch(() => {
+        showErrorPopup();
+      })
+      .finally(unblockSubmitButton);
+  }
 };
 
 export {
