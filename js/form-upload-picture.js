@@ -1,25 +1,19 @@
-import { isEscapeKey } from './util.js';
-import { pristine, commentInput, hashtagInput } from './validate-form.js';
+import { isEscapeKey } from './utils.js';
+import { pristine, commentInput, hashtagInput, onFormSubmit } from './validate-form.js';
 import { uploadScale, changePhotoScale, resetPhotoScale } from './scale-picture.js';
 import { effectLevelSlider, effectsList, onFilterChange, init } from './filter-picture.js';
 
 const formUploadPhoto = document.querySelector('.img-upload__form');
-const uploadInput = document.querySelector('.img-upload__input');
-const photoEditor = document.querySelector('.img-upload__overlay');
-const closeButtonEditor = document.querySelector('.img-upload__cancel');
-const photoPreview = document.querySelector('.img-upload__preview img');
+const uploadInput = formUploadPhoto.querySelector('.img-upload__input');
+const uploadOverlay = formUploadPhoto.querySelector('.img-upload__overlay');
+const closeButtonEditor = formUploadPhoto.querySelector('.img-upload__cancel');
+const photoPreview = formUploadPhoto.querySelector('.img-upload__preview img');
 
-const onSubmitForm = (evt) => {
-  if (!pristine.validate()) {
-    evt.preventDefault();
-  }
-};
-
-const closePhotoEditor = () => {
+const closeUploadPhoto = () => {
   uploadInput.value = '';
   commentInput.value = '';
   URL.revokeObjectURL(photoPreview.src);
-  photoEditor.classList.add('hidden');
+  uploadOverlay.classList.add('hidden');
   document.body.classList.remove('.modal-open');
   formUploadPhoto.reset();
   pristine.reset();
@@ -34,7 +28,7 @@ const uploadPhoto = () => {
     const file = uploadInput.files[0];
     const url = URL.createObjectURL(file);
 
-    photoEditor.classList.remove('hidden');
+    uploadOverlay.classList.remove('hidden');
     document.body.classList.add('.modal-open');
     photoPreview.src = url;
 
@@ -44,37 +38,37 @@ const uploadPhoto = () => {
 };
 
 const onOverlayClick = (evt) => {
-  if (evt.target === photoEditor || evt.target === closeButtonEditor) {
-    closePhotoEditor();
+  if (evt.target === uploadOverlay || evt.target === closeButtonEditor) {
+    closeUploadPhoto();
   }
 };
 
 const onPictureEsc = (evt) => {
   if (isEscapeKey(evt) && !hashtagInput.contains(evt.target) && !commentInput.contains(evt.target)) {
     evt.preventDefault();
-    closePhotoEditor();
+    closeUploadPhoto();
   }
 };
 
 function addEvent() {
-  formUploadPhoto.addEventListener('submit', onSubmitForm);
   uploadScale.addEventListener('click', changePhotoScale);
   effectsList.addEventListener('change', onFilterChange);
-  closeButtonEditor.addEventListener('click', closePhotoEditor);
+  closeButtonEditor.addEventListener('click', closeUploadPhoto);
   document.addEventListener('click', onOverlayClick);
   document.addEventListener('keydown', onPictureEsc);
 }
 
 function removeEvent() {
-  formUploadPhoto.removeEventListener('submit', onSubmitForm);
+  formUploadPhoto.removeEventListener('submit', onFormSubmit);
   uploadScale.removeEventListener('click', changePhotoScale);
   effectsList.removeEventListener('change', onFilterChange);
-  closeButtonEditor.removeEventListener('click', closePhotoEditor);
+  closeButtonEditor.removeEventListener('click', closeUploadPhoto);
   document.removeEventListener('keydown', onPictureEsc);
   document.removeEventListener('click', onOverlayClick);
 }
 
 export {
   photoPreview,
-  uploadPhoto
+  uploadPhoto,
+  closeUploadPhoto
 };

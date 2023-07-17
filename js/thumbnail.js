@@ -1,12 +1,14 @@
-import { createCardPhoto, PHOTO_COUNT } from './data.js';
+import { showAlert } from './utils.js';
+import { getData } from './api.js';
+import { findPhoto } from './big-picture.js';
+import { uploadPhoto } from './form-upload-picture.js';
 
-const thumbnailsList = createCardPhoto(PHOTO_COUNT);
 const picturesContainer = document.querySelector('.pictures');
 const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const thumbnailFragment = document.createDocumentFragment();
 
-const createThumbnails = () => {
-  thumbnailsList.forEach((picture) => {
+const createThumbnails = (pictures) => {
+  pictures.forEach((picture) => {
     const thumbnailItem = thumbnailTemplate.cloneNode(true);
     const thumbnailImg = thumbnailItem.querySelector('.picture__img');
     const thumbnailComments = thumbnailItem.querySelector('.picture__comments');
@@ -16,12 +18,27 @@ const createThumbnails = () => {
     thumbnailImg.alt = picture.description;
     thumbnailComments.textContent = picture.comments.length;
     thumbnailLikes.textContent = picture.likes;
+
+    thumbnailItem.addEventListener('click', (evt) => {
+      evt.preventDefault();
+      findPhoto(picture);
+    });
+
     thumbnailFragment.append(thumbnailItem);
   });
 };
 
-createThumbnails();
+const renderThumbnails = () => {
+  getData()
+    .then((data) => {
+      createThumbnails(data);
+      picturesContainer.append(thumbnailFragment);
+      uploadPhoto();
+    }).catch((error) => {
+      showAlert(error.message);
+    });
+};
 
-picturesContainer.append(thumbnailFragment);
-
-export { thumbnailsList, picturesContainer };
+export {
+  renderThumbnails
+};

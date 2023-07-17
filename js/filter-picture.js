@@ -1,10 +1,53 @@
-import { EFFECTS } from './data.js';
-import { photoPreview } from './upload-picture.js';
+import { photoPreview } from './form-upload-picture.js';
 
 const sliderContainer = document.querySelector('.img-upload__effect-level');
 const effectValue = document.querySelector('.effect-level__value');
 const effectLevelSlider = document.querySelector('.effect-level__slider');
 const effectsList = document.querySelector('.effects__list');
+const Effects = {
+  'none': {
+    style: 'none',
+    unit: '',
+    min: 0,
+    max: 0,
+    step: 0,
+  },
+  'chrome': {
+    style: 'grayscale',
+    unit: '',
+    min: 0,
+    max: 1,
+    step: 0.1
+  },
+  'sepia': {
+    style: 'sepia',
+    unit: '',
+    min: 0,
+    max: 1,
+    step: 0.1
+  },
+  'marvin': {
+    style: 'invert',
+    unit: '%',
+    min: 0,
+    max: 100,
+    step: 1
+  },
+  'phobos': {
+    style: 'blur',
+    unit: 'px',
+    min: 0,
+    max: 3,
+    step: 0.1
+  },
+  'heat': {
+    style: 'brightness',
+    unit: '',
+    min: 1,
+    max: 3,
+    step: 0.1
+  },
+};
 let currentEffect = 'none';
 
 const createSlider = (element) => {
@@ -36,8 +79,8 @@ const createEffect = () => {
     return;
   }
 
-  const style = EFFECTS[currentEffect].style;
-  const unit = EFFECTS[currentEffect].unit;
+  const style = Effects[currentEffect].style;
+  const unit = Effects[currentEffect].unit;
 
   photoPreview.style.filter = `${style}(${effectValue.value}${unit})`;
 };
@@ -61,11 +104,11 @@ const onFilterChange = (evt) => {
   if (evt.target.value === 'none') {
     sliderContainer.classList.add('hidden');
     currentEffect = evt.target.value;
-    updateOptionsSlider(EFFECTS[currentEffect]);
+    updateOptionsSlider(Effects[currentEffect]);
   } else {
     sliderContainer.classList.remove('hidden');
     currentEffect = evt.target.value;
-    updateOptionsSlider(EFFECTS[currentEffect]);
+    updateOptionsSlider(Effects[currentEffect]);
   }
 };
 
