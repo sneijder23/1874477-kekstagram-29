@@ -1,7 +1,8 @@
-import { isEscapeKey } from './utils.js';
+import { isEscapeKey, normalizeString } from './utils.js';
+import { FILE_TYPES } from './config.js';
 import { pristine, commentInput, hashtagInput, onFormSubmit } from './validate-form.js';
 import { uploadScale, changePhotoScale, resetPhotoScale } from './scale-picture.js';
-import { effectLevelSlider, effectsList, onFilterChange, init } from './filter-picture.js';
+import { effectLevelSlider, effectsList, onFilterChange, initSlider } from './filter-picture.js';
 
 const formUploadPhoto = document.querySelector('.img-upload__form');
 const uploadInput = formUploadPhoto.querySelector('.img-upload__input');
@@ -26,13 +27,18 @@ const closeUploadPhoto = () => {
 const uploadPhoto = () => {
   uploadInput.addEventListener('change', () => {
     const file = uploadInput.files[0];
-    const url = URL.createObjectURL(file);
+    const fileName = normalizeString(file.name);
+
+    const isMatching = FILE_TYPES.some((extention) => fileName.endsWith(extention));
+
+    if (isMatching) {
+      photoPreview.src = URL.createObjectURL(file);
+    }
 
     uploadOverlay.classList.remove('hidden');
     document.body.classList.add('.modal-open');
-    photoPreview.src = url;
 
-    init();
+    initSlider();
     addEvent();
   });
 };

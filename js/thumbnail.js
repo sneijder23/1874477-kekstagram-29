@@ -1,14 +1,13 @@
 import { showAlert } from './utils.js';
 import { getData } from './api.js';
 import { findPhoto } from './big-picture.js';
-import { uploadPhoto } from './form-upload-picture.js';
 
 const picturesContainer = document.querySelector('.pictures');
 const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const thumbnailFragment = document.createDocumentFragment();
 
-const createThumbnails = (pictures) => {
-  pictures.forEach((picture) => {
+const createThumbnails = (data) => {
+  data.forEach((picture) => {
     const thumbnailItem = thumbnailTemplate.cloneNode(true);
     const thumbnailImg = thumbnailItem.querySelector('.picture__img');
     const thumbnailComments = thumbnailItem.querySelector('.picture__comments');
@@ -33,7 +32,6 @@ const renderThumbnails = () => {
     .then((data) => {
       createThumbnails(data);
       picturesContainer.append(thumbnailFragment);
-      uploadPhoto();
     }).catch((error) => {
       showAlert(error.message);
     });

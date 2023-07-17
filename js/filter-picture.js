@@ -112,7 +112,7 @@ const onFilterChange = (evt) => {
   }
 };
 
-const init = () => {
+const initSlider = () => {
   effectsList.querySelector('.effects__radio#effect-none').checked = true;
   createSlider(effectLevelSlider);
   getSliderValue();
@@ -124,5 +124,5 @@ export {
   effectLevelSlider,
   effectsList,
   onFilterChange,
-  init
+  initSlider
 };

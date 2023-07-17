@@ -5,6 +5,8 @@ const body = document.querySelector('body');
 
 const validateString = (value) => value.length <= MAX_TEXT_LENGTH;
 
+const normalizeString = (str) => str.toLowerCase().trim();
+
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const showAlert = (message) => {
@@ -31,5 +33,6 @@ export {
   body,
   showAlert,
   isEscapeKey,
-  validateString
+  validateString,
+  normalizeString
 };

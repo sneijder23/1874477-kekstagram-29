@@ -6,6 +6,7 @@ const MIN_SCALE = 25; // Минимальное маштабирование ф�
 const MAX_HASHTAG_COUNT = 5; // Максимальное число хэштегов
 const HASHTAG_REX_EXP = /^#[a-zа-яё0-9]{1,19}$/i; // Регулярка для теста Хэш-Тэга
 const MAX_TEXT_LENGTH = 140; // Максимальная длина комментария в форме загрузки фото
+const FILE_TYPES = ['gif', 'webp', 'jpeg', 'png', 'avif', 'jpg', 'svg']; // Типы файлов для публикации
 
 export {
   ALERT_TIME,
@@ -16,4 +17,5 @@ export {
   MAX_HASHTAG_COUNT,
   HASHTAG_REX_EXP,
   MAX_TEXT_LENGTH,
+  FILE_TYPES
 };
