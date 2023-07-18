@@ -1,5 +1,6 @@
-import { findPhoto } from './big-picture.js';
-import { uploadPhoto } from './upload-picture.js';
+import { renderThumbnails } from './thumbnails.js';
+import { uploadPhoto } from './form-upload-picture.js';
 
-findPhoto();
+renderThumbnails();
 uploadPhoto();
+

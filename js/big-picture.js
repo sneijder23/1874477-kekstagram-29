@@ -1,8 +1,7 @@
-import { isEscapeKey } from './util.js';
-import { thumbnailsList, picturesContainer } from './thumbnail.js';
-import { COMMENT_PER_PORTION } from './data.js';
+import { isEscapeKey } from './utils.js';
+import { createComment } from './create-elements.js';
+import { COMMENT_PER_PORTION } from './config.js';
 
-const thumbnails = Array.from(document.querySelectorAll('.picture')); // Получаем массив из NodeList
 const pictureContainer = document.querySelector('.big-picture');
 const pictureImg = pictureContainer.querySelector('.big-picture__img img');
 const pictureDescription = pictureContainer.querySelector('.social__caption');
@@ -18,18 +17,8 @@ let commentsShowArray = [];
 
 const createPictureComments = (comments) => {
   comments.forEach((comment) => {
-    const element = document.createElement('li');
-    const img = document.createElement('img');
-    const text = document.createElement('p');
-    element.classList.add('social__comment');
-    img.classList.add('social__picture');
-    text.classList.add('social__text');
-    img.src = comment.avatar;
-    img.alt = comment.name;
-    text.textContent = comment.message;
-    element.append(img);
-    element.append(text);
-    pictureComments.append(element);
+    const item = createComment(comment);
+    pictureComments.append(item);
   });
 };
 
@@ -73,32 +62,25 @@ const fillComments = ({ comments }) => {
   }
 };
 
-const findPhoto = () => {
-  picturesContainer.addEventListener('click', (event) => {
-    const picture = event.target.closest('.picture');
-    const thumbnailIndex = thumbnails.findIndex((item) => item === picture);
-    const photo = thumbnailsList[thumbnailIndex];
+const findPhoto = (photo) => {
+  if (!photo) {
+    return; // Прерывает выполнение обработчика для элементов, не являющихся .picture
+  }
 
-    if (!picture) {
-      return; // Прерывает выполнение обработчика для элементов, не являющихся .picture
-    }
+  pictureComments.innerHTML = '';
+  commentsCountList.classList.remove('hidden');
+  buttonCommentsLoader.classList.remove('hidden');
 
-    pictureComments.innerHTML = '';
-    commentsCountList.classList.remove('hidden');
-    buttonCommentsLoader.classList.remove('hidden');
+  commentsShowArray = photo.comments;
+  document.body.classList.add('modal-open');
+  pictureContainer.classList.remove('hidden');
+  pictureImg.src = photo.url;
+  pictureLikes.textContent = photo.likes;
+  commentsCount.textContent = photo.comments.length;
+  pictureDescription.textContent = photo.description;
 
-    commentsShowArray = photo.comments;
-    document.body.classList.add('modal-open');
-    pictureContainer.classList.remove('hidden');
-    pictureImg.src = photo.url;
-    pictureLikes.textContent = photo.likes;
-    commentsCount.textContent = photo.comments.length;
-    pictureDescription.textContent = photo.description;
-
-
-    fillComments(photo);
-    addEvent();
-  });
+  fillComments(photo);
+  addEvent();
 };
 
 const closePhoto = () => {

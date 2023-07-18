@@ -1,5 +1,5 @@
-import { photoPreview } from './upload-picture.js';
-import { SCALE_PER_STEP, MAX_SCALE, MIN_SCALE } from './data.js';
+import { photoPreview } from './form-upload-picture.js';
+import { SCALE_PER_STEP, MAX_SCALE, MIN_SCALE } from './config.js';
 
 const uploadScale = document.querySelector('.img-upload__scale');
 const scaleControlValue = uploadScale.querySelector('.scale__control--value');

@@ -1,9 +1,17 @@
-import { MAX_HASHTAG_COUNT, MAX_TEXT_LENGTH } from './data.js';
+import { MAX_HASHTAG_COUNT, HASHTAG_REX_EXP } from './config.js';
+import { validateString } from './utils.js';
+import { postData } from './api.js';
+import { showSuccessPopup, showErrorPopup } from './render-notifications.js';
+import { closeUploadPhoto } from './form-upload-picture.js';
 
 const formUploadPhoto = document.querySelector('.img-upload__form');
 const hashtagInput = document.querySelector('.text__hashtags');
 const commentInput = document.querySelector('.text__description');
-const hashtagRegExp = /^#[a-zа-яё0-9]{1,19}$/i;
+const submitButton = document.querySelector('.img-upload__submit');
+const SubmitButtonText = {
+  DEFAULT: 'Опубликовать',
+  SENDING: 'Публикую...'
+};
 let errorHashtagMessage = '';
 
 const pristine = new Pristine(formUploadPhoto, {
@@ -12,8 +20,6 @@ const pristine = new Pristine(formUploadPhoto, {
   errorTextClass: 'img-upload__field-wrapper--error',
   errorTextTag: 'p'
 }, false);
-
-const validateComment = (value) => value.length <= MAX_TEXT_LENGTH;
 
 const validateHashtags = () => {
   const hashtags = hashtagInput.value.trim().split(/\s+/);
@@ -32,7 +38,7 @@ const validateHashtags = () => {
       if (hashtag === '') {
         continue;
       }
-      if (!hashtagRegExp.test(hashtag)) {
+      if (!HASHTAG_REX_EXP.test(hashtag)) {
         isValid = false;
         errorHashtagMessage = `Хэш-тег "${hashtag}" некорректен`;
         break;
@@ -56,14 +62,46 @@ pristine.addValidator(
 
 pristine.addValidator(
   commentInput,
-  validateComment,
+  validateString,
   'Длина комментария не может составлять больше 140 символов'
 );
+
+const initSuccesForm = () => {
+  closeUploadPhoto();
+  showSuccessPopup();
+};
+
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = SubmitButtonText.SENDING;
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = SubmitButtonText.DEFAULT;
+};
+
+const onFormSubmit = (evt) => {
+  evt.preventDefault();
+
+  if (pristine.validate()) {
+    blockSubmitButton();
+    postData(new FormData(evt.target))
+      .then(() => {
+        initSuccesForm();
+      })
+      .catch(() => {
+        showErrorPopup();
+      })
+      .finally(unblockSubmitButton);
+  }
+};
 
 export {
   hashtagInput,
   commentInput,
-  validateComment,
+  validateString,
   validateHashtags,
-  pristine
+  pristine,
+  onFormSubmit
 };
