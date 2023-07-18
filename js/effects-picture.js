@@ -4,6 +4,7 @@ const sliderContainer = document.querySelector('.img-upload__effect-level');
 const effectValue = document.querySelector('.effect-level__value');
 const effectLevelSlider = document.querySelector('.effect-level__slider');
 const effectsList = document.querySelector('.effects__list');
+const effectsPreviews = document.querySelectorAll('.effects__preview');
 const Effects = {
   'none': {
     style: 'none',
@@ -123,6 +124,7 @@ const initSlider = () => {
 export {
   effectLevelSlider,
   effectsList,
+  effectsPreviews,
   onFilterChange,
   initSlider
 };

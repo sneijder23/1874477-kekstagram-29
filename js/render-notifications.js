@@ -1,4 +1,4 @@
-import { body, isEscapeKey } from './utils.js';
+import { isEscapeKey } from './utils.js';
 
 const successPopup = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
 const successButton = successPopup.querySelector('.success__button');
@@ -8,7 +8,7 @@ const errorButton = errorPopup.querySelector('.error__button');
 const onSuccessButtonClick = () => removeSuccessNotification();
 const onSuccessOverlayClick = (evt) => !evt.target.closest('.success__inner') && removeSuccessNotification();
 const onSuccessPopupEsc = (evt) => isEscapeKey(evt) && removeSuccessNotification();
-const renderNotification = (element) => body.appendChild(element);
+const renderNotification = (element) => document.body.appendChild(element);
 const onErrorButtonClick = () => removeErrorNotification();
 const onErrorOverlayClick = (evt) => !evt.target.closest('error__inner') && removeErrorNotification();
 const onErrorPopupEsc = (evt) => isEscapeKey(evt) && removeErrorNotification();

@@ -2,7 +2,7 @@ import { isEscapeKey, normalizeString } from './utils.js';
 import { FILE_TYPES } from './config.js';
 import { pristine, commentInput, hashtagInput, onFormSubmit } from './validate-form.js';
 import { uploadScale, changePhotoScale, resetPhotoScale } from './scale-picture.js';
-import { effectLevelSlider, effectsList, onFilterChange, initSlider } from './filter-picture.js';
+import { effectLevelSlider, effectsList, effectsPreviews, onFilterChange, initSlider } from './effects-picture.js';
 
 const formUploadPhoto = document.querySelector('.img-upload__form');
 const uploadInput = formUploadPhoto.querySelector('.img-upload__input');
@@ -33,6 +33,9 @@ const uploadPhoto = () => {
 
     if (isMatching) {
       photoPreview.src = URL.createObjectURL(file);
+      effectsPreviews.forEach((preview) => {
+        preview.style.backgroundImage = `url(${photoPreview.src})`;
+      });
     }
 
     uploadOverlay.classList.remove('hidden');

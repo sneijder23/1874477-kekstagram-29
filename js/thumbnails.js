@@ -1,12 +1,16 @@
-import { showAlert } from './utils.js';
+import { showAlert, debounce } from './utils.js';
 import { getData } from './api.js';
 import { findPhoto } from './big-picture.js';
-
-const picturesContainer = document.querySelector('.pictures');
-const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
-const thumbnailFragment = document.createDocumentFragment();
+import { initFilter } from './sorting-thumbnails.js';
+import { RERENDER_DELAY } from './config.js';
 
 const createThumbnails = (data) => {
+  const picturesContainer = document.querySelector('.pictures');
+  const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
+  const thumbnailFragment = document.createDocumentFragment();
+  const filtersThumbnails = document.querySelector('.img-filters');
+  filtersThumbnails.classList.remove('img-filters--inactive');
+
   data.forEach((picture) => {
     const thumbnailItem = thumbnailTemplate.cloneNode(true);
     const thumbnailImg = thumbnailItem.querySelector('.picture__img');
@@ -24,19 +28,26 @@ const createThumbnails = (data) => {
     });
 
     thumbnailFragment.append(thumbnailItem);
-    picturesContainer.append(thumbnailFragment);
   });
+
+  Array.from(picturesContainer.children).forEach((child) => {
+    if (child.tagName === 'A') {
+      child.remove();
+    }
+  });
+
+  picturesContainer.append(thumbnailFragment);
 };
 
 const renderThumbnails = () => {
   getData()
     .then((data) => {
+      const debouncedCreateThumbnails = debounce(createThumbnails, RERENDER_DELAY);
       createThumbnails(data);
+      initFilter(data, debouncedCreateThumbnails);
     }).catch((error) => {
       showAlert(error.message);
     });
 };
 
-export {
-  renderThumbnails
-};
+export { renderThumbnails };

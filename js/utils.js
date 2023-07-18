@@ -1,7 +1,5 @@
-import { createElement } from './create-element.js';
+import { createElement } from './create-elements.js';
 import { ALERT_TIME, MAX_TEXT_LENGTH } from './config.js';
-
-const body = document.querySelector('body');
 
 const validateString = (value) => value.length <= MAX_TEXT_LENGTH;
 
@@ -19,20 +17,28 @@ const showAlert = (message) => {
   alertContainer.style.padding = '15px 5px';
   alertContainer.style.fontSize = '30px';
   alertContainer.style.textAlign = 'center';
-  alertContainer.style.color = 'tomato';
+  alertContainer.style.backgroundColor = 'red';
   alertContainer.style.transform = 'scale(1)';
 
-  body.appendChild(alertContainer);
+  document.body.appendChild(alertContainer);
 
   setTimeout(() => {
     alertContainer.remove();
   }, ALERT_TIME);
 };
 
+const debounce = (callback, timeoutDelay) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
 export {
-  body,
   showAlert,
   isEscapeKey,
   validateString,
-  normalizeString
+  normalizeString,
+  debounce
 };
